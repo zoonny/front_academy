@@ -124,12 +124,12 @@ function newsDetail() {
     </div>
   `;
 
-  function makeComment(comments) {
+  function makeComment(comments, called) {
     const commentString = [];
 
     for (let i = 0; i < comments.length; i++) {
       commentString.push(`
-        <div style="padding-left: 40px;" class="mt-4">
+        <div style="padding-left: ${40 * called}px;" class="mt-4">
           <div class="text-gray-400">
             <i class="fa fa-sort-up mr-2"></i>
             <strong>${comments[i].user}</strong> ${comments[i].time_ago}
@@ -138,14 +138,17 @@ function newsDetail() {
         </div>
         `);
 
-        if (comments[i].comments.length > 0) {
-            commentString.push(makeComment(comments[i].comments));
-        }
+      if (comments[i].comments.length > 0) {
+        commentString.push(makeComment(comments[i].comments, called + 1));
+      }
     }
     return commentString;
   }
 
-  container.innerHTML = template.replace('{{__comments__}}', makeComment(newsContent.comments));
+  container.innerHTML = template.replace(
+    "{{__comments__}}",
+    makeComment(newsContent.comments, 1)
+  );
 }
 
 function router() {
