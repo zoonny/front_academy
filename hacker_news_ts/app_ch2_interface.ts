@@ -4,37 +4,37 @@ const content: HTMLDivElement = document.createElement("div");
 const NEWS_URL = "https://api.hnpwa.com/v0/news/1.json";
 const CONTENT_URL = "https://api.hnpwa.com/v0/item/@id.json";
 
-type Store = {
+interface Store {
   currentPage: number;
   lastPage: number;
   isLastPage: Function;
   feeds: NewsFeed[];
-};
+}
 
-type News = {
-  id: number;
-  time_ago: string;
-  title: string;
-  url: string;
-  user: string;
-  content: string;
-};
+interface News {
+  readonly id: number;
+  readonly time_ago: string;
+  readonly title: string;
+  readonly url: string;
+  readonly user: string;
+  readonly content: string;
+}
 
-type NewsFeed = News & {
-  comments_count: number;
-  points: number;
+interface NewsFeed extends News {
+  readonly comments_count: number;
+  readonly points: number;
   read?: boolean;
-};
+}
 
-type NewsDetail = News & {
-  comments: NewsComment[];
-};
+interface NewsDetail extends News {
+  readonly comments: NewsComment[];
+}
 
-type NewsComment = News & {
-  comments: NewsComment[];
-  comments_count: number;
-  level: number;
-};
+interface NewsComment extends News {
+  readonly comments: NewsComment[];
+  readonly comments_count: number;
+  readonly level: number;
+}
 
 const store: Store = {
   currentPage: 1,
