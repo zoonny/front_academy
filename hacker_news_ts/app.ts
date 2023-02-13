@@ -87,6 +87,18 @@ interface NewsDetailApi extends Api {}
 applyApiMixins(NewsFeedApi, [Api]);
 applyApiMixins(NewsDetailApi, [Api]);
 
+class View {
+  constructor() {}
+}
+
+class NewsFeedView {
+  constructor() {}
+}
+
+class NewsDetailView {
+  constructor() {}
+}
+
 function updateView(template: string): void {
   if (container) {
     container.innerHTML = template;
