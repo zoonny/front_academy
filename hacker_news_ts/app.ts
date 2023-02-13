@@ -1,26 +1,67 @@
-const ajax = new XMLHttpRequest();
-const container = document.getElementById("root");
-const content = document.createElement("div");
+const ajax: XMLHttpRequest = new XMLHttpRequest();
+const container: HTMLElement | null = document.getElementById("root");
+const content: HTMLDivElement = document.createElement("div");
 const NEWS_URL = "https://api.hnpwa.com/v0/news/1.json";
 const CONTENT_URL = "https://api.hnpwa.com/v0/item/@id.json";
 
-const store = {
+type Store = {
+  currentPage: number;
+  lastPage: number;
+  isLastPage: Function;
+  feeds: NewsFeed[];
+};
+
+type News = {
+  id: number;
+  time_ago: string;
+  title: string;
+  url: string;
+  user: string;
+  content: string;
+}
+
+type NewsFeed = News & {
+  comments_count: number;
+  points: number;
+  read?: boolean;
+};
+
+type NewsDetail = News & {
+  comments: NewsComment[];
+}
+
+type NewsComment = News & {
+  comments: NewsComment[];
+  comments_count: number;
+  level: number;
+}
+
+const store: Store = {
   currentPage: 1,
   lastPage: 0,
   isLastPage: function () {
     return this.currentPage >= this.lastPage;
   },
-  feeds: []
+  feeds: [],
 };
 
-function getData(url) {
+// function getData(url: string): NewsFeed[] | NewsDetail[] {
+function getData<AjaxResponse>(url: string): AjaxResponse {
   ajax.open("GET", url, false);
   ajax.send();
 
   return JSON.parse(ajax.response);
 }
 
-function makeFeed(feeds) {
+function updateView(template: string) {
+  if (container) {
+    container.innerHTML = template;
+  } else {
+    console.error("최상위 컨테이너가 없습니다.");
+  }
+}
+
+function makeFeed(feeds: NewsFeed[]) {
   for (let i = 0; i < feeds.length; i++) {
     feeds[i].read = false;
   }
@@ -28,11 +69,11 @@ function makeFeed(feeds) {
 }
 
 function newsFeed() {
-  let newsFeed = store.feeds;
-  const newsList = [];
+  let newsFeed: NewsFeed[] = store.feeds;
+  const newsList: string[] = [];
 
   if (newsFeed.length == 0) {
-    newsFeed = store.feeds = makeFeed(getData(NEWS_URL));
+    newsFeed = store.feeds = makeFeed(getData<NewsFeed[]>(NEWS_URL));
   }
 
   store.lastPage = Math.ceil(newsFeed.length / 10);
@@ -99,12 +140,12 @@ function newsFeed() {
     !store.isLastPage() ? store.currentPage + 1 : store.lastPage
   );
 
-  container.innerHTML = template;
+  updateView(template);
 }
 
 function newsDetail() {
   const id = location.hash.substring(7);
-  const newsContent = getData(CONTENT_URL.replace("@id", id));
+  const newsContent = getData<NewsDetail>(CONTENT_URL.replace("@id", id));
 
   let template = `
     <div class="bg-gray-600 min-h-screen pb-8">
@@ -163,9 +204,8 @@ function newsDetail() {
     return commentString;
   }
 
-  container.innerHTML = template.replace(
-    "{{__comments__}}",
-    makeComment(newsContent.comments, 1)
+  updateView(
+    template.replace("{{__comments__}}", makeComment(newsContent.comments, 1))
   );
 }
 

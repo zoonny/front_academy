@@ -28,6 +28,16 @@ $ parcel index.html
 - Template replace library
   - Handlebars
 
+## 해커뉴스 클라이언트
+- RestClient
+- Type Alias
+  - Intersection
+  > type NewsFeed = News & { ... }
+- Type guard
+> getData(): NewsFeed[] | NewsDetail[]
+- Generic
+> getData<T>(): T
+
 ## 실용튜토리얼
 
 ### 차트라이브러리
