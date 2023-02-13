@@ -10,7 +10,6 @@ const store = {
   isLastPage: function () {
     return this.currentPage >= this.lastPage;
   },
-  feeds: []
 };
 
 function getData(url) {
@@ -20,20 +19,9 @@ function getData(url) {
   return JSON.parse(ajax.response);
 }
 
-function makeFeed(feeds) {
-  for (let i = 0; i < feeds.length; i++) {
-    feeds[i].read = false;
-  }
-  return feeds;
-}
-
 function newsFeed() {
-  let newsFeed = store.feeds;
+  const newsFeed = getData(NEWS_URL);
   const newsList = [];
-
-  if (newsFeed.length == 0) {
-    newsFeed = store.feeds = makeFeed(getData(NEWS_URL));
-  }
 
   store.lastPage = Math.ceil(newsFeed.length / 10);
 
@@ -105,6 +93,7 @@ function newsFeed() {
 function newsDetail() {
   const id = location.hash.substring(7);
   const newsContent = getData(CONTENT_URL.replace("@id", id));
+  console.log(newsContent);
 
   let template = `
     <div class="bg-gray-600 min-h-screen pb-8">
@@ -134,13 +123,6 @@ function newsDetail() {
       </div>
     </div>
   `;
-
-  for (let i = 0; i < store.feeds.length; i++) {
-    if (store.feeds[i].id == id) {
-      store.feeds[i].read = true;
-      break;
-    }
-  }
 
   function makeComment(comments, called) {
     const commentString = [];
