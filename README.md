@@ -38,6 +38,16 @@ $ parcel index.html
 - Generic
 > getData<T>(): T
 
+- ViewClass
+- Split class file
+- Global Store
+  - window global variable
+  - Store class
+- Async
+  - Callback
+  - Promise
+  - async await
+
 ## 실용튜토리얼
 
 ### 차트라이브러리
