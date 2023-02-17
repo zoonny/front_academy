@@ -9,11 +9,7 @@
   </head>
   <body>
     <svg width="100%" height="400">
-      <text x="30" y="30" font-weight="bold" fill="red">최근 4개월 요금내역</text>
-      <line x1="10" y1="40" x2="99%" y2="40" stroke="red" stroke-width="2" stroke-linecap="round"/>
-      <text x="30" y="30" font-weight="bold" fill="red">최근 4개월 요금내역</text>
-      <line x1="204" y1="80" x2="204" y2="364" stroke="gray" stroke-width="1" stroke-linecap="round"/>
-      <line x1="200" y1="360" x2="90%" y2="360" stroke="gray" stroke-width="1" stroke-linecap="round"/>
+      <!-- background -->
       <rect
         x="0"
         y="0"
@@ -23,6 +19,35 @@
         fill="transparent"
         stroke-width="1"
       />
+      <!-- title -->
+      <text x="30" y="30" font-weight="bold" fill="red">최근 4개월 요금내역</text>
+      <!-- red line -->
+      <line x1="10" y1="40" x2="99%" y2="40" stroke="red" stroke-width="2" stroke-linecap="round"/>
+      <!-- unit -->
+      <text x="120" y="70" font-size="0.6rem" fill="gray">(단위 : 원)</text>
+      <!-- x-line -->
+      <line x1="120" y1="360" x2="99%" y2="360" stroke="gray" stroke-width="1" stroke-linecap="round"/>
+      <!-- x-line unit -->
+      <line x1="320" y1="364" x2="320" y2="360" stroke="gray" stroke-width="1" stroke-linecap="round"/>
+      <text x="300" y="380" font-size="0.7rem" fill="black">2022.10</text>
+      <line x1="520" y1="364" x2="520" y2="360" stroke="gray" stroke-width="1" stroke-linecap="round"/>
+      <text x="500" y="380" font-size="0.7rem" fill="black">2022.11</text>
+      <line x1="720" y1="364" x2="720" y2="360" stroke="gray" stroke-width="1" stroke-linecap="round"/>
+      <text x="700" y="380" font-size="0.7rem" fill="black">2022.12</text>
+      <line x1="920" y1="364" x2="920" y2="360" stroke="gray" stroke-width="1" stroke-linecap="round"/>
+      <text x="900" y="380" font-size="0.7rem" fill="black">2023.01</text>
+      <line x1="1120" y1="364" x2="1120" y2="360" stroke="gray" stroke-width="1" stroke-linecap="round"/>
+      <!-- y-line -->
+      <line x1="124" y1="80" x2="124" y2="364" stroke="gray" stroke-width="1" stroke-linecap="round"/>
+      <!-- y-line unit -->
+      <line x1="120" y1="120" x2="124" y2="120" stroke="gray" stroke-width="1" stroke-linecap="round"/>
+      <text x="60" y="124" font-size="0.8rem" fill="black">96,000</text>
+      <line x1="120" y1="180" x2="124" y2="180" stroke="gray" stroke-width="1" stroke-linecap="round"/>
+      <text x="60" y="184" font-size="0.8rem" fill="black">76,000</text>
+      <line x1="120" y1="240" x2="124" y2="240" stroke="gray" stroke-width="1" stroke-linecap="round"/>
+      <text x="60" y="244" font-size="0.8rem" fill="black">56,000</text>
+      <line x1="120" y1="300" x2="124" y2="300" stroke="gray" stroke-width="1" stroke-linecap="round"/>
+      <text x="60" y="304" font-size="0.8rem" fill="black">36,000</text>
     </svg>
     <script src="app.js"></script>
   </body>
