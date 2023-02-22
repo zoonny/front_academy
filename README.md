@@ -59,3 +59,21 @@ $ jsdoc chart.js
 $ cd out
 $ https-server -p 3000
 ```
+
+### javascript 기본 문법
+
+#### 변수 
+- 복사 : Primitive Type
+- 참조 : 객체
+- 구조 분석 할당
+
+#### 타입
+
+#### 함수
+- 함수도 값, 변수 할당 가능
+- 즉시 실행 함수
+- 가변인자: arguments or ...args
+- 함수실행
+  - func();
+  - func.call(context, 10, 20, 30);
+  - func.apply(context, [10, 20, 30]);
