@@ -89,3 +89,10 @@ $ https-server -p 3000
   - func();
   - func.call(context, 10, 20, 30);
   - func.apply(context, [10, 20, 30]);
+
+## Typescript
+
+```shell
+$ tsc --build
+$ tsc --build --clean
+```
