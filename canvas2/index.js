@@ -1,11 +1,13 @@
 import CanvasOption from "./js/CanvasOption.js";
 import Particle from "./js/Particle.js";
+import Tail from "./js/Tail.js";
 import { hypotenuse, randomNumBetween } from "./js/Utils.js";
 
 class Canvas extends CanvasOption {
   constructor() {
     super();
     this.particles = [];
+    this.tails = [];
   }
 
   init() {
@@ -21,10 +23,18 @@ class Canvas extends CanvasOption {
     this.createParticles();
   }
 
-  createParticles() {
+  createTail() {
+    const x = randomNumBetween(this.canvasWidth * 0.2, this.canvasWidth * 0.8);
+    const vy = this.canvasHeight * randomNumBetween(0.01, 0.015) * -1;
+    // const color = "red";
+    const color = "255, 255, 255";
+    this.tails.push(new Tail(x, vy, color));
+  }
+
+  createParticles(x, y, color) {
     const PARTICLE_NUM = 400;
-    const x = randomNumBetween(0, this.canvasWidth);
-    const y = randomNumBetween(0, this.canvasHeight);
+    // const x = randomNumBetween(0, this.canvasWidth);
+    // const y = randomNumBetween(0, this.canvasHeight);
     for (let i = 0; i < PARTICLE_NUM; i++) {
       // 삼각함수
       // sin, cos, tan
@@ -39,7 +49,7 @@ class Canvas extends CanvasOption {
       const vx = r * Math.cos(angle);
       const vy = r * Math.sin(angle);
       const opacity = randomNumBetween(0.6, 0.9);
-      this.particles.push(new Particle(x, y, vx, vy, opacity));
+      this.particles.push(new Particle(x, y, vx, vy, opacity, color));
     }
   }
 
@@ -54,6 +64,20 @@ class Canvas extends CanvasOption {
       if (delta < this.interval) return;
       this.ctx.fillStyle = this.bgColor + "20"; // #00000010, 10: opacity
       this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+
+      if (Math.random() < 0.03) {
+        this.createTail();
+      }
+
+      this.tails.forEach((tail, index) => {
+        tail.update();
+        tail.draw();
+
+        if (tail.vy > -0.7) {
+          this.tails.splice(index, 1);
+          this.createParticles(tail.x, tail.y, tail.color);
+        }
+      });
 
       this.particles.forEach((particle, index) => {
         particle.update();
