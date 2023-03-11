@@ -2,32 +2,20 @@ const canvas = document.getElementById("canvas");
 
 const ctx = canvas.getContext("2d");
 const dpr = window.devicePixelRatio;
-let canvasWidth;
-let canvasHeight;
-let particles;
+console.log(ctx);
+console.log(dpr);
 
-function init() {
-  canvasWidth = innerWidth;
-  canvasHeight = innerHeight;
+// const canvasWidth = 300;
+// const canvasHeight = 300;
+const canvasWidth = innerWidth;
+const canvasHeight = innerHeight;
 
-  canvas.style.width = canvasWidth + "px";
-  canvas.style.height = canvasHeight + "px";
+canvas.style.width = canvasWidth + "px";
+canvas.style.height = canvasHeight + "px";
 
-  canvas.width = canvasWidth * dpr;
-  canvas.height = canvasHeight * dpr;
-  ctx.scale(dpr, dpr);
-
-  particles = [];
-  const TOTAL = canvasWidth / 10;
-  for (let i = 0; i < TOTAL; i++) {
-    const x = randomNumBetween(0, canvasWidth);
-    const y = randomNumBetween(0, canvasHeight);
-    const radius = randomNumBetween(0, 50);
-    const vy = randomNumBetween(1, 5);
-    const particle = new Particle(x, y, radius, vy);
-    particles.push(particle);
-  }
-}
+canvas.width = canvasWidth * dpr;
+canvas.height = canvasHeight * dpr;
+ctx.scale(dpr, dpr);
 
 const feGaussianBlur = document.querySelector("feGaussianBlur");
 const feColorMatrix = document.querySelector("feColorMatrix");
@@ -94,10 +82,22 @@ class Particle {
 const x = 100;
 const y = 100;
 const radius = 50;
+// const TOTAL = 5;
+const TOTAL = 20;
 const randomNumBetween = (min, max) => {
   return Math.random() * (max - min + 1) + min;
 };
 console.log(randomNumBetween(1, 5));
+
+const particles = [];
+for (let i = 0; i < TOTAL; i++) {
+  const x = randomNumBetween(0, canvasWidth);
+  const y = randomNumBetween(0, canvasHeight);
+  const radius = randomNumBetween(0, 50);
+  const vy = randomNumBetween(1, 5);
+  const particle = new Particle(x, y, radius, vy);
+  particles.push(particle);
+}
 
 // 모니터 주사율 별로 동일 애니메이션 처리 로직
 // 모니터 주사율 60hz = 1초 60번 실행 = 1000/60인 16ms마다 requestAnimationFrame 실행
@@ -132,11 +132,4 @@ function animate() {
   then = now - (delta % interval);
 }
 
-window.addEventListener("load", () => {
-  init();
-  animate();
-});
-
-window.addEventListener("resize", () => {
-  init();
-});
+animate();
