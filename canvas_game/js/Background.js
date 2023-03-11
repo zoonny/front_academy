@@ -1,14 +1,16 @@
 import App from "./App.js";
 
 export default class Background {
-  constructor() {
-    this.img = document.querySelector("#bg2-img");
+  constructor(config) {
+    // this.img = document.querySelector("#bg2-img");
+    this.img = config.img;
     this.height = App.height;
     this.width = App.height * (this.img.width / this.img.height);
     this.leftPos = { x: 0, y: 0 };
     // bg2-img 사이즈가 맞지 않아 -4 적용
     this.rightPos = { x: this.width - 4, y: 0 };
-    this.speed = -20;
+    // this.speed = -20;
+    this.speed = config.speed;
   }
 
   update() {

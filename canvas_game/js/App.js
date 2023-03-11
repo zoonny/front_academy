@@ -1,4 +1,5 @@
 import Background from "./Background.js";
+import Wall from "./Wall.js";
 
 export default class App {
   static canvas = document.querySelector("canvas");
@@ -8,7 +9,13 @@ export default class App {
   static width = 1024;
   static height = 768;
   constructor() {
-    this.background = new Background();
+    this.backgrounds = [
+      new Background({ img: document.querySelector("#bg3-img"), speed: -1 }),
+      new Background({ img: document.querySelector("#bg2-img"), speed: -2 }),
+      new Background({ img: document.querySelector("#bg1-img"), speed: -4 }),
+    ];
+
+    this.walls = [new Wall({ type: "SMALL" })];
 
     // bind(this) : resize시 this가 window를 가리키게 됨
     // this.resize.bind(this)를 해주면 this가 App 클래스로 인식되며
@@ -36,10 +43,17 @@ export default class App {
       if (delta < App.interval) return;
 
       App.ctx.clearRect(0, 0, App.width, App.height);
-      App.ctx.fillRect(50, 50, 100, 100);
+      //   App.ctx.fillRect(50, 50, 100, 100);
 
-      this.background.update();
-      this.background.draw();
+      this.backgrounds.forEach((background) => {
+        background.update();
+        background.draw();
+      });
+
+      this.walls.forEach((wall) => {
+        wall.update();
+        wall.draw();
+      });
 
       then = now - (delta % App.interval);
     };
