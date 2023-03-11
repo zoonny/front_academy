@@ -29,11 +29,11 @@ class Canvas extends CanvasOption {
     const x = randomNumBetween(this.canvasWidth * 0.2, this.canvasWidth * 0.8);
     const vy = this.canvasHeight * randomNumBetween(0.01, 0.015) * -1;
     // const color = "red";
-    const color = "255, 255, 255";
-    this.tails.push(new Tail(x, vy, color));
+    const colorDeg = randomNumBetween(0, 360);
+    this.tails.push(new Tail(x, vy, colorDeg));
   }
 
-  createParticles(x, y, color) {
+  createParticles(x, y, colorDeg) {
     const PARTICLE_NUM = 400;
     // const x = randomNumBetween(0, this.canvasWidth);
     // const y = randomNumBetween(0, this.canvasHeight);
@@ -51,7 +51,8 @@ class Canvas extends CanvasOption {
       const vx = r * Math.cos(angle);
       const vy = r * Math.sin(angle);
       const opacity = randomNumBetween(0.6, 0.9);
-      this.particles.push(new Particle(x, y, vx, vy, opacity, color));
+      const _colorDeg = randomNumBetween(-20, 20) + colorDeg;
+      this.particles.push(new Particle(x, y, vx, vy, opacity, _colorDeg));
     }
   }
 
@@ -67,6 +68,11 @@ class Canvas extends CanvasOption {
       this.ctx.fillStyle = this.bgColor + "20"; // #00000010, 10: opacity
       this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
 
+      this.ctx.fillStyle = `rgba(255, 255, 255, ${
+        this.particles.length / 30000
+      })`;
+      this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+
       if (Math.random() < 0.03) {
         this.createTail();
       }
@@ -74,6 +80,15 @@ class Canvas extends CanvasOption {
       this.tails.forEach((tail, index) => {
         tail.update();
         tail.draw();
+
+        for (let i = 0; i < Math.round(-tail.vy * 0.5); i++) {
+          const vx = randomNumBetween(-5, 5) * 0.05;
+          const vy = randomNumBetween(-5, 5) * 0.05;
+          const opacity = Math.min(-tail.vy, 0.5);
+          this.sparks.push(
+            new Spark(tail.x, tail.y, vx, vy, opacity, tail.colorDeg)
+          );
+        }
 
         if (tail.vy > -0.7) {
           this.tails.splice(index, 1);
@@ -86,7 +101,7 @@ class Canvas extends CanvasOption {
         particle.draw();
 
         if (Math.random() < 0.1) {
-          this.sparks.push(new Spark(particle.x, particle.y, 0.3));
+          this.sparks.push(new Spark(particle.x, particle.y, 0, 0, 0.3, 45));
         }
 
         if (particle.opacity < 0) {
